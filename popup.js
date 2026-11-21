@@ -1,11 +1,24 @@
-//get add form element
 const addForm = document.getElementById("add-form");
-const websiteinput = document.getElementById("new-site")
+const websiteinput = document.getElementById("new-site");
+const container = document.getElementById("blocklist-container");
 const blocklist = [];
+//this displays inputs
+function renderBlockList() {
+    container.innerHTML = "     ";    
+    blocklist.forEach((site) => {
+        const p = document.createElement("p");
+        p.textContent = site;
+        container.appendChild(p);
+    }); 
+}
+//this saves input
 addForm.addEventListener("submit", async (e) => {
-    //add a way to get data from textbox and save in blocklist.txt or in browser local storage
+    //need to save to default storage
+    e.preventDefault();
     const site = websiteinput.value;
     blocklist.push(site);
-    websiteinput.value = "";
-    console.log("Saved: ", blocklist);
-});
+    websiteinput.value = ""; 
+    console.log("Saved: ", blocklist);     
+    renderBlockList();
+    console.log("ran renderblock list function")
+}); 
