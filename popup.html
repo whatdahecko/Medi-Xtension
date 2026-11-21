@@ -8,7 +8,7 @@
 </head>
 <style> 
     body { 
-        background-color: #f0f0f0; 
+        background-color: #dad1d1; 
         font-family: Arial, sans-serif; 
         text-align: center; 
         padding: 50px; 
@@ -16,7 +16,12 @@
 </style>
 <body>
     <div class="container">
-        <h1> MediXtension </h1>
-        <button id="myButton"> Click me </button> 
+        <h1>Enter sites to block</h1>
+        <form id = "add-form">
+            <input id = "new-site" type ="text" placeholder = "Enter website name"></input>
+            <button type = "submit">Add</button>
+        </form> 
     </div>  
+    <script src="popup.js"></script>
+
 </body>
