@@ -19,11 +19,24 @@ function formatsite(input) {
 //this displays inputs
 function renderBlockList() {
     container.innerHTML = " ";    
-    blocklist.forEach((formattedsite) => {
-        const p = document.createElement("p");
-        p.textContent = formattedsite;
-        container.appendChild(p);
+    blocklist.forEach((site, index) => {
+        const li = document.createElement("li");
+        li.textContent = site + " ";
+        const remove = document.createElement("button")
+        remove.textContent = "X";
+        remove.addEventListener("click", () => {
+            blocklist.splice(index,1);
+            saveAndRender();
+        });
+
+        li.appendChild(remove);
+        container.appendChild(li);
     }); 
+}
+function saveAndRender() {
+    browser.storage.local.set({ blocklist }).then(() => {
+        renderBlockList();
+    });
 }
 async function loadBlockList() {
     const data = await browser.storage.local.get("blocklist");
@@ -38,8 +51,9 @@ addForm.addEventListener("submit", async (e) => {
     if (formattedsite && !blocklist.includes(formattedsite)) { 
         blocklist.push(formattedsite);
         await browser.storage.local.set({blocklist});
-        websiteinput.value = " ";
+        websiteinput.value = "";
         renderBlockList();  
     }
 }); 
+ 
 loadBlockList();
