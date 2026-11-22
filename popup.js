@@ -5,6 +5,20 @@ const blocklist = JSON.parse(localStorage.getItem("blocklist")) || [];
 //stolen from github to check if input is a site
 const LINK_DETECTION_REGEX = /(([a-z]+:\/\/)?(([a-z0-9\-]+\.)+([a-z]{2}|aero|arpa|biz|com|coop|edu|gov|info|int|jobs|mil|museum|name|nato|net|org|pro|travel|local|internal))(:[0-9]{1,5})?(\/[a-z0-9_\-\.~]+)*(\/([a-z0-9_\-\.]*)(\?[a-z0-9+_\-\.%=&amp;]*)?)?(#[a-zA-Z0-9!$&'()*+.=-_~:@/?]*)?)(\s+|$)/gi
 const isitasite = new RegExp(`^(?:${LINK_DETECTION_REGEX.source})$`, 'i')
+//changes input into .hostname format
+function formatsite(input) {
+    let str = input.trim().toLowerCase();
+    if(!str.includes("://")) str = "https://" + str; 
+
+    try {
+        const { hostname } = new URL(str); 
+        if(!hostname.includes(".") || hostname.endsWith(".")) return null;
+        return hostname.startsWith("www.") ? hostname: "www." + hostname;
+    }
+    catch {
+        return null;
+    }
+}
 //this displays inputs
 function renderBlockList() {
     container.innerHTML = "     ";    
@@ -25,7 +39,9 @@ addForm.addEventListener("submit", async (e) => {
     e.preventDefault();
     const site = websiteinput.value;
     if (isSite(site)) {
-        blocklist.push(site);
+        const formattedsite = formatsite(site);
+        blocklist.push(formattedsite);
+        console.log("formatted site worked? ", formattedsite);
         localStorage.setItem("blocklist", JSON.stringify(blocklist));
         websiteinput.value = ""; 
         console.log("Saved: ", blocklist);     
