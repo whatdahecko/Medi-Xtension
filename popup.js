@@ -33,3 +33,4 @@ addForm.addEventListener("submit", async (e) => {
     }
 }); 
 renderBlockList();
+module.exports = {blocklist};
