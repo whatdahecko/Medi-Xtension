@@ -9,7 +9,8 @@
         "storage",
         "activeTab",
         "scripting",
-        "alarms"
+        "alarms",
+        "webNavigation"
     ],
     "background": { 
         "scripts": ["background.js"],
